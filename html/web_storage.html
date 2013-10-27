@@ -1,0 +1,32 @@
+<!--web storage demo-->
+<!DOCTYPE>
+<html lang="zh">
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    </head>
+    <body>
+        <div class="container" style="margin-top: 100px;">
+            <p class="lead">
+                <textarea class="form-control" id="test" cols="10" rows="10"></textarea>
+                <button type="button" class="btn btn-info" id="save">存储</button>
+            </p>
+        </div>
+        <script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../js/storage.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var save = document.getElementById("save");
+                var storage = new Storage("localstorage").get_storage();
+                var area = document.getElementById("test");
+                save.addEventListener("click", function() {
+                    var value = area.value;
+                    storage.setItem("value", value);
+                }, false);
+                area.value = storage.getItem("value");
+            });
+        </script>
+    </body>
+</html>
