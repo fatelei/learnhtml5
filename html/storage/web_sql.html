@@ -1,0 +1,92 @@
+<!-- web sql demo -->
+<!DOCTYPE HTML>
+<html lang="zh">
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <p class="lead">创建表<code>create table if not exists test(id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT)</code></p>
+            <p class="lead">插入数据<code>insert into test(data) values("test")</code></p>
+            <p class="lead">查询数据<code>select * from test</code></p>
+            <p class="lead">删除数据<code>delete from test where id = 1</code></p>
+            <p class="lead">删除表<code>drop table test</code></p>
+            <p class="lead">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" id="createtable">创建表</button>
+                    <button type="button" class="btn btn-info" id="insert">插入数据</button>
+                    <button type="button" class="btn btn-success" id="query">查询数据</button>
+                    <button type="button" class="btn btn-warning" id="delete">删除数据</button>
+                    <button type="button" class="btn btn-danger" id="droptable">删除表</button>
+                </div>
+            </p>
+            <p class="lead" id="rst"></p>
+        </div>
+        <script type="text/javascript" src="../../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../../js/storage.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var createtable = document.getElementById("createtable");
+                var insert = document.getElementById("insert");
+                var query = document.getElementById("query");
+                var del = document.getElementById("delete");
+                var droptable = document.getElementById("droptable");
+                var storage = new Storage("websql").get_storage();
+
+
+                createtable.addEventListener("click", function() {
+                    var db = storage("testdb", "1.0", "demo test", 5*1024*1024);
+                    db.transaction(function(tx) {
+                        tx.executeSql("create table if not exists test(id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT)",
+                                      [],
+                                      onSuccessExecuteSql,
+                                      onError);
+                    }, onError, onReadyTransaction);
+                }, false);
+
+                insert.addEventListener("click", function() {
+                    var db = storage("testdb", "1.0", "demo test", 5*1024*1024);
+                    db.transaction(function(tx) {
+                        tx.executeSql("insert into test(data) values(?)",
+                                      ["test"],
+                                      onSuccessExecuteSql,
+                                      onError);
+                    }, onError, onReadyTransaction);
+                }, false);
+
+                query.addEventListener("click", function() {
+                    var db = storage("testdb", "1.0", "demo test", 5*1024*1024);
+                    db.transaction(function(tx) {
+                        tx.executeSql("select * from test",
+                                      [],
+                                      displayResults,
+                                      onError);
+                    }, onError, onReadyTransaction);
+                }, false);
+
+                del.addEventListener("click", function() {
+                    var db = storage("testdb", "1.0", "demo test", 5*1024*1024);
+                    db.transaction(function(tx) {
+                        tx.executeSql("delete from test where id = ?",
+                                      [1],
+                                      onSuccessExecuteSql,
+                                      onError);
+                    }, onError, onReadyTransaction);
+                }, false);
+
+                droptable.addEventListener("click", function() {
+                    var db = storage("testdb", "1.0", "demo test", 5*1024*1024);
+                    db.transaction(function(tx) {
+                        tx.executeSql("drop table test",
+                                      [],
+                                      onSuccessExecuteSql,
+                                      onError);
+                    }, onError, onReadyTransaction);
+                }, false);
+            });
+        </script>
+    </body>
+</html>

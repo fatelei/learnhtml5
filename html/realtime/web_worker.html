@@ -1,0 +1,47 @@
+<!-- web worker demo -->
+<!DOCTYPE HTML>
+<html lang="zh">
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container" style="margin-top:100px;">
+            <p class="lead">计数: <output id="result"></output></p>
+            <p class="lead"><button type="button" class="btn btn-success" id="start">开始计数</button></p>
+            <p class="lead"><button type="button" class="btn btn-warning" id="stop" disabled>停止计数</button></p>
+        </div>
+        <script type="text/javascript" src="../../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            var worker;
+            $(document).ready(function() {
+
+                $("#start").bind("click", function() {
+                    if (typeof(Worker) == undefined) {
+                        alert("Your browser doesn't support worker!");
+                    } else {
+                        //创建worker task
+                        worker = new Worker("../../js/calculate.js");
+                        worker.onmessage = function(event) {
+                            $("#result")[0].value = event.data;
+                        };
+                        this.disabled = true;
+                        $("#stop")[0].disabled = false;
+                    }
+                });
+
+                $("#stop").bind("click", function() {
+                    if (typeof(Worker) == undefined) {
+                        alert("Your browser doesn't support worker!");
+                    } else {
+                        worker.terminate();
+                        this.disabled = true;
+                        $("#start")[0].disabled = false;   
+                    }
+                })
+            });
+        </script>
+    </body>
+</html>

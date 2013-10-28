@@ -1,0 +1,32 @@
+<!-- web websocket demo -->
+<!DOCTYPE HTML>
+<html lang="zh">
+<head>
+    <meta charset="utf8">
+    <link rel="stylesheet" href="../../../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+</head>
+    <body>
+        <section>
+            <p class="lead"><input type="text" id="msg"><button type="button" id="send">发送</button></p>
+            <p class="lead">从服务端接受:
+                <output id="received"></output>
+            </p>
+        </section>
+        <script type="text/javascript" src="../../../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../../../js/socket.io.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var socket = io.connect("http://localhost:8888");
+                $("#send").bind("click", function() {
+                    var value = $("#msg")[0].value;
+                    socket.emit("msg", {data: value});
+                    socket.on("msg", function(data) {
+                        $("#received")[0].value  = data.data;
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

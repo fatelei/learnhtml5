@@ -1,0 +1,121 @@
+<!--web indexeddb deom -->
+<!DOCTYPE HTML>
+<html lang="zh">
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+    </head>
+    <body>
+        <div class="container" style="margin-top: 100px;">
+            <section>
+                <form role="form" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="key" class="control-label col-lg-2">key</label>
+                        <div class="col-lg-10"><input type="text" id="key" class="form-control"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="value" class="control-label col-lg-2">value</label>
+                        <div class="col-lg-10"><input type="text" id="value" class="form-control"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <button class="btn btn-info" id="put" type="button">插入值</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="get_key" class="col-lg-2 control-label">查询key</label>
+                        <div class="col-lg-10"><input type="text" id="get_key" class="form-control"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <button class="btn btn-info" id="query" type="button">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section>
+                <p class="lead" id="display"></p>
+            </section>
+        </div>
+        <script type="text/javascript" src="../../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../../js/storage.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var put = document.getElementById("put");
+                var query = document.getElementById("query");
+                var storage = new Storage("indexeddb").get_storage();
+
+                put.addEventListener("click", function() {
+                    var request = storage.open("test_indexeddb", 2);
+                    request.onerror = function(event) {
+                        console.log("Error: " + event.target.errorCode);
+                    };
+
+                    request.onsuccess = function(event) {
+                        var db = event.target.result;
+                        var transaction = db.transaction(["test"], "readwrite");
+                        var objectStore = transaction.objectStore("test");
+                        var key = $("#key")[0].value;
+                        var value = $("#value")[0].value;
+                        objectStore.add({id: key, data: value});
+                    };
+
+                    request.onupgradeneeded = function(event) {
+                        var db = event.target.result;
+                        console.log(db);
+                        var objectStore = db.createObjectStore("test", {keyPath: "id"});
+                        var key = $("#key")[0].value;
+                        var value = $("#value")[0].value;
+
+                        objectStore.add({id: key, data: value});
+                    };
+                }, false);
+
+                query.addEventListener("click", function() {
+                    var request = storage.open("test_indexeddb", 2);
+                    request.onerror = function(event) {
+                        console.log("Error: " + event.target.errorCode);
+                    };
+
+                    request.onsuccess = function(event) {
+                        var db = event.target.result;
+                        var transaction = db.transaction(["test"], "readonly");
+                        var objectStore = transaction.objectStore("test");
+                        var get_key = document.getElementById("get_key");
+                        var result = objectStore.get(get_key.value);
+
+                        result.onerror = function(event) {
+                            console.log("Error: " + event.target.errorCode);
+                        };
+
+                        result.onsuccess = function(event) {
+                            $("#display").html("id:" + result.result.id + " data:" + result.result.data);
+                        };
+                    };
+
+                    request.onupgradeneeded = function(event) {
+                        var db = event.target.result;
+                        var transaction = db.transaction(["test"]);
+                        var objectStore = transaction.objectStore("test");
+                        var get_key = document.getElementById("get_key");
+                        var result = objectStore.get(get_key.value);
+
+                        result.onerror = function(event) {
+                            console.log("Error: " + event.target.errorCode);
+                        };
+
+                        result.onsuccess = function(event) {
+                            console.log(result.result.data);
+                        };
+                    };
+                }, false);
+            });
+        </script>
+    </body>
+</html>

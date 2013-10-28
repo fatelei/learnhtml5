@@ -28,5 +28,9 @@ function onReadyTransaction() {
 }
 
 function displayResults(tx, results) {
-    console.log(results.rows.length);
+    var html = "";
+    for (var i = 0; i < results.rows.length; i++) {
+        html += 'id:' + results.rows.item(i).id  + " data: " + results.rows.item(i).data + "<br/>";
+    }
+    $("#rst").html(html);
 }

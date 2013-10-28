@@ -1,0 +1,30 @@
+<!-- web application cache demo -->
+<!DOCTYPE HTML>
+<html manifest="demo.appcache">
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+    </head>
+    <body>
+        <div class="container" style="margin-top:100px;">
+            <img src="http://www.newsfirst.lk/english/sites/default/files/cat.jpg" alt="">
+        </div>
+        <script type="text/javascript" src="../../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            function onUpdateReady() {
+                alert("found new version");
+            };
+
+            window.applicationCache.addEventListener("updateready", onUpdateReady);
+            if (window.applicationCache.statuss === window.applicationCache.UPDATEREADY) {
+                onUpdateReady();
+            }
+        </script>
+    </body>
+</html>
+
+<html manifest="demo.appcache">
+……
+</html>
