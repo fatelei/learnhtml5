@@ -1,0 +1,56 @@
+<!-- web notification demo -->
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    </head>
+    <body>
+        <form action="" role="form">
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <button type="button" class="btn btn-default" id="set">设置桌面通知</button>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript" src="../../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                if (window.webkitNotifications) {
+                    function show() {
+                        var newNotifications = window.webkitNotifications.createNotification(
+                                "http://w.qhimg.com/images/v2/360se/2012/06/14/360ee.png",
+                                "demo",
+                                "demo");
+                        newNotifications.ondisplay = function() {
+                            var temp = this;
+                            var fn = function() {
+                                temp.cancel();
+                            };
+                            window.setTimeout(fn, 2000);
+                        };
+                        newNotifications.show();
+                    }
+                    function check() {
+                        var level = window.webkitNotifications.checkPermission();
+                        console.log(level);
+                        if (level == 0) {
+                            show();
+                        } else if (level == 1) {
+                            window.webkitNotifications.requestPermission(check);
+                        } else  {
+                            alert("Deny allow");
+                        }
+                    }
+
+                    var set = document.getElementById("set");
+                    set.addEventListener("click", check, false);
+                } else {
+                    alert("Your browser doesn't support notification!");
+                }
+            });
+        </script>
+    </body>
+</html>

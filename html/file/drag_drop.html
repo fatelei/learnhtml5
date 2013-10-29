@@ -1,0 +1,62 @@
+<!-- drag and drop demo -->
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <ul id="draglist">
+                    <li draggable="true">Item 1</li>
+                    <li draggable="true">Item 2</li>
+                    <li draggable="true">Item 3</li>
+                    <li draggable="true">Item 4</li>
+                </ul>
+            </div>
+            <div class="row">
+                <p class="lead">垃圾箱</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="../../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var draglist = $("#draglist").children();
+                var eleDrag = null;
+                for (var i = 0; i < draglist.length; i++) {
+                    draglist[i].ondragstart = function(ev) {
+                        ev.dataTransfer.effectAllowed = "move";
+                        ev.dataTransfer.setData("text", ev.target.innerHTML);
+                        ev.dataTransfer.setDragImage(ev.target, 0, 0);
+                        eleDrag = ev.target;
+                        return true;
+                    };
+
+                    draglist[i].ondragend = function(ev) {
+                        ev.dataTransfer.clearData("text");
+                        eleDrag = null;
+                        return false;
+                    };
+                }
+                $(".lead")[0].ondragover = function(ev) {
+                    ev.preventDefault();
+                    return true;
+                };
+                $(".lead")[0].ondragenter = function(ev) {
+                    this.style.color = "#ffffff";
+                    return true;
+                }
+                $(".lead")[0].ondrop = function(ev) {
+                    if (eleDrag) {
+                        eleDrag.parentNode.removeChild(eleDrag);
+                    }
+                    this.style.color = "#000000";
+                    return false;
+                }
+            });
+        </script>
+    </body>
+</html>
