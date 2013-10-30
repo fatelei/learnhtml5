@@ -1,0 +1,90 @@
+<!-- columns demo -->
+<!DOCTYPE HTML>
+<html lang="zh">
+    <head>
+        <meta charset="utf8">
+        <style>
+            @-webkit-keyframes 'wobble' {
+                 0% {
+                    margin-left: 100px;
+                    background: green;
+                 }
+                 40% {
+                    margin-left: 150px;
+                    background: orange;
+                 }
+                 60% {
+                    margin-left: 75px;
+                    background: blue;
+                 }
+                 100% {
+                    margin-left: 100px;
+                    background: red;
+                 }
+            }
+            @-o-keyframes 'wobble' {
+                 0% {
+                    margin-left: 100px;
+                    background: green;
+                 }
+                 40% {
+                    margin-left: 150px;
+                    background: orange;
+                 }
+                 60% {
+                    margin-left: 75px;
+                    background: blue;
+                 }
+                 100% {
+                    margin-left: 100px;
+                    background: red;
+                 }
+            }
+            @-moz-keyframes 'wobble' {
+                 0% {
+                    margin-left: 100px;
+                    background: green;
+                 }
+                 40% {
+                    margin-left: 150px;
+                    background: orange;
+                 }
+                 60% {
+                    margin-left: 75px;
+                    background: blue;
+                 }
+                 100% {
+                    margin-left: 100px;
+                    background: red;
+                 }
+            }
+            #test-animation {
+                 width: 50px;
+                 height: 50px;
+                 margin-left: 100px;
+                 background: blue;
+                 -webkit-animation-name:'wobble';/*动画属性名，也就是我们前面keyframes定义的动画名*/
+                 -webkit-animation-duration: 10s;/*动画持续时间*/
+                 -webkit-animation-timing-function: ease-in-out; /*动画频率，和transition-timing-function是一样的*/
+                 -webkit-animation-delay: 2s;/*动画延迟时间*/
+                 -webkit-animation-iteration-count: 10;/*定义循环资料，infinite为无限次*/
+                 -webkit-animation-direction: alternate;/*定义动画方式*/
+                 -moz-animation-name:'wobble';/*动画属性名，也就是我们前面keyframes定义的动画名*/
+                 -moz-animation-duration: 10s;/*动画持续时间*/
+                 -moz-animation-timing-function: ease-in-out; /*动画频率，和transition-timing-function是一样的*/
+                 -moz-animation-delay: 2s;/*动画延迟时间*/
+                 -moz-animation-iteration-count: 10;/*定义循环资料，infinite为无限次*/
+                 -moz-animation-direction: alternate;/*定义动画方式*/
+                 -o-animation-name:'wobble';/*动画属性名，也就是我们前面keyframes定义的动画名*/
+                 -o-animation-duration: 10s;/*动画持续时间*/
+                 -o-animation-timing-function: ease-in-out; /*动画频率，和transition-timing-function是一样的*/
+                 -o-animation-delay: 2s;/*动画延迟时间*/
+                 -o-animation-iteration-count: 10;/*定义循环资料，infinite为无限次*/
+                 -o-animation-direction: alternate;/*定义动画方式*/
+             }
+        </style>
+    </head>
+    <body>
+        <div id="test-animation"></div>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<!-- columns demo -->
+<!DOCTYPE HTML>
+<html lang="zh">
+    <head>
+        <meta charset="utf8">
+        <style>
+            .test {
+                white-space: nowrap;
+                width: 14em;
+                height: 1.6em;
+                overflow: hidden;
+                border: 1px solid #000;
+                background-color: #fff;
+            }
+            #overflow1 {
+                text-overflow: clip;
+                -o-text-overflow: clip;
+                -moz-text-overflow: clip;
+                -webkit-text-overflow: clip;
+                -icab-text-overflow: clip;
+                -khtml-text-overflow: clip;
+            }
+
+            #overflow2 {
+                text-overflow: ellipsis;
+                -o-text-overflow: ellipsis;
+                -moz-text-overflow: ellipsis;
+                -webkit-text-overflow: ellipsis;
+                -icab-text-overflow: ellipsis;
+                -khtml-text-overflow: ellipsis;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="test" id="overflow1">demo demodemodemodemodemodemodemodemo</div>
+        <div class="test" id="overflow2">demo demodemodemodemodemodemodemodemo</div>
+    </body>
+</html>
