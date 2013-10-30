@@ -1,0 +1,46 @@
+<!-- device orientation demo -->
+<html>
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container" style="margin-top: 100px;">
+            <div class="row">
+                <p class="lead" id="doEvent"></p>
+                <p class="lead" id="doTiltLR"></p>
+                <p class="lead" id="doTiltFB"></p>
+                <p class="lead" id="doDirection"></p>                
+            </div>
+            <div class="row">
+                <img src="../../img/Signal.png" id="imglogo">
+            </div>
+        </div>
+        <script type="text/javascript" src="../../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                if (window.DeviceOrientationEvent) {
+                    $("#doEvent").html("Event DeviceOrientation");
+                    function deviceOrientation(tiltLR, tiltFB, dir) {
+                        document.getElementById("doTiltLR").innerHTML = Math.round(tiltLR);
+                        document.getElementById("doTiltFB").innerHTML = Math.round(tiltFB);
+                        document.getElementById("doDirection").innerHTML = Math.round(dir);
+                        var logo = document.getElementById("imglogo");
+                        logo.style.webkitTransform = "rotate("+ tiltLR +"deg) rotate3d(1,0,0, "+ (tiltFB*-1)+"deg)";
+                        logo.style.MozTransform = "rotate("+ tiltLR +"deg)";
+                        logo.style.transform =
+                          "rotate("+ tiltLR +"deg) rotate3d(1,0,0, "+ (tiltFB*-1)+"deg)";
+                    }
+                    window.addEventListener("deviceorientation", function(ev) {
+                        var tiltLR = ev.gamma;
+                        var tiltFB = ev.beta;
+                        var dir = ev.alpha;
+                        deviceOrientation(tiltLR, tiltFB, dir);
+                    }, false);
+                }
+            });
+        </script>
+    </body>
+</html>

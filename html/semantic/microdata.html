@@ -1,0 +1,20 @@
+<!-- microdata demo -->
+<html lang="zh">
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container" style="margin-top:100px;">
+            <div itemscope itemtype ="http://schema.org/Movie">
+                <h1 itemprop="name">阿凡达</h1>
+                <div itemprop="director" itemscope itemtype="http://schema.org/Person">
+                导演：<span itemprop="name">詹姆斯·卡梅隆</span> (生于 <span itemprop="birthDate">1954年8月16日)</span>
+                </div>
+                类型：<span itemprop="genre">科幻</span>
+                <a href="../movies/avatar-theatrical-trailer.html" itemprop="trailer">电影片</a>
+            </div>
+        </div>
+    </body>
+</html>

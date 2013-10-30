@@ -1,0 +1,117 @@
+<!-- filesystem demo -->
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container" style="margin-top:100px;">
+            <div class="btn-group">
+                <button type="button" class="btn btn-info" id="create">创建文件</button>
+                <button type="button" class="btn btn-primary" id="list">列出文件</button>
+                <button type="button" class="btn btn-warning" id="remove">删除所有文件</button>
+            </div>
+            <div class="alert alert-success" id="fileslist"></div>
+            <div class="alert alert-error" id="msg"></div>
+        </div>
+        <script type="text/javascript" src="../../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+                var fs = null;
+
+                function errorHandler(e) {
+                    var msg = '';
+                    switch (e.code) {
+                        case FileError.QUOTA_EXCEEDED_ERR:
+                            msg = 'QUOTA_EXCEEDED_ERR';
+                            break;
+                        case FileError.NOT_FOUND_ERR:
+                            msg = 'NOT_FOUND_ERR';
+                            break;
+                        case FileError.SECURITY_ERR:
+                            msg = 'SECURITY_ERR';
+                            break;
+                        case FileError.INVALID_MODIFICATION_ERR:
+                            msg = 'INVALID_MODIFICATION_ERR';
+                            break;
+                        case FileError.INVALID_STATE_ERR:
+                            msg = 'INVALID_STATE_ERR';
+                            break;
+                        default:
+                            msg = 'Unknown Error';
+                            break;
+                    };
+                    $("#msg").html('<strong>Error: ' + msg + '</strong>');
+                }
+
+                function initFS() {
+                    window.requestFileSystem(window.TEMPORARY, 1024*1024, function(filesystem) {
+                        fs = filesystem;
+                    }, errorHandler);
+                }
+
+                var create = document.getElementById("create");
+                var list = document.getElementById("list");
+                var remove = document.getElementById("remove");
+
+                create.addEventListener("click", function(e) {
+                    if (!fs) {
+                        return;
+                    } else {
+                        fs.root.getFile('log.txt', {create: true}, null, errorHandler);
+                        fs.root.getFile('song.mp3', {create: true}, null, errorHandler);
+                        fs.root.getDirectory('mypictures', {create: true}, null, errorHandler);
+                        alert("Files Created");
+                    }
+                }, false);
+
+                list.addEventListener("click", function(e) {
+                    if (!fs) {
+                        return;
+                    } else {
+                        var dirReader = fs.root.createReader();
+                        dirReader.readEntries(function(entries) {
+                            if (!entries.length) {
+                                alert("no files");
+                            } else {
+                                var html = "<ul>"
+                                for (var i = 0, entry; entry = entries[i]; i++) {
+                                    html += '<li><span>' + entry.name + '</span></li>'; 
+                                }
+                                html += '</ul>';
+                                $("#fileslist").html(html);
+                            }
+                        }, errorHandler);
+                    }
+                }, false);
+
+                remove.addEventListener("click", function(e) {
+                    if (!fs) {
+                        return;
+                    } else {
+                        var dirReader = fs.root.createReader();
+                        dirReader.readEntries(function(entries) {
+                            for (var i = 0, entry; entry = entries[i]; ++i) {
+                                if (entry.isDirectory) {
+                                    entry.removeRecursively(function() {}, errorHandler);
+                                } else {
+                                    entry.remove(function() {}, errorHandler);
+                                }
+                            }
+                            $("#fileslist").html("");
+                            alert("files removed");
+                        }, errorHandler);
+                    }
+                }, false);
+                // Initiate filesystem on page load.
+                if (window.requestFileSystem) {
+                    initFS();
+                }
+            });
+        </script>
+    </body>
+</html>

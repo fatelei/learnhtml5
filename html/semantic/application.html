@@ -1,0 +1,32 @@
+<!-- markup for applicaton -->
+<html lang="zh">
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container" style="margin-top:100px;">
+            <div class="row">
+                <p>自动补全</p>
+                <input type="text" list="autocomplete">
+                <datalist id="autocomplete">
+                    <option value="firefox"></option>
+                    <option value="ie"></option>
+                    <option value="chrome"></option>
+                    <option value="opera"></option>
+                    <option value="safari"></option>
+                </datalist>
+            </div>
+            <div class="row">
+                <p>度量</p>
+                <meter value="91" min="0" max="100" low="40" high="90" optimum="100">A+</meter>
+            </div>
+            <div class="row">
+                <p>进度条</p>
+                <progress>working...</progress>
+                <progress value="75" max="100">3/4 complete</progress>
+            </div>
+        </div>
+    </body>
+</html>

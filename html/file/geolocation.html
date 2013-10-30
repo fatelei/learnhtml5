@@ -1,0 +1,35 @@
+<!-- geolocation demo -->
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container" style="margin-top:100px;">
+            <div class="row">
+                <button type="button" class="btn btn-default" id="position">获取位置</button>
+            </div>
+            <div class="row" id="location"></div>
+        </div>
+        <script type="text/javascript" src="../../js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var position = document.getElementById("position");
+                function showPosition(pos) {
+                    $("#location").html('<div class="alert alert-success"><strong>' + 'latitude:' + pos.coords.latitude + 
+                                        ' Longitude:' + pos.coords.longitude + '</strong></div>')
+                }
+                position.addEventListener("click", function() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    } else {
+                        alert("Your browser doesn't support geolocation");
+                    }
+                }, false);
+            });
+        </script>
+    </body>
+</html>
